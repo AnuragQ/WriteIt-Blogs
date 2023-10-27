@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- import bootstrap -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <title>WriteIt Blogs</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="mb-1"><%= blogPost.title %></h1>
+      <p class="font-italic mb-2">Author: <%= blogPost.author %></p>
+      <p class="card-subtitle text-muted mt-auto font-italic mb-5">
+        Written On: <%= blogPost.createdAt.toLocaleDateString() %>
+      </p>
+      <a href="/" class="btn btn-secondary">Back to all articles</a>
+      <% if (global.user && global.user.username === blogPost.author) { %>
+      <a href="/blogs/edit/<%= blogPost.id %>" class="btn btn-outline-info"
+        >Edit</a
+      >
+      <% } %>
+      <div class="card-body"><%= blogPost.content %></div>
+
+      <div class="container">
+        <p class="card-header">Comments</p>
+        <% if (global.user) { %>
+        <form action="/comments" method="POST">
+          <input type="hidden" name="blogPostId" value="<%= blogPost.id %>" />
+          <input
+            type="hidden"
+            name="blogPostSlug"
+            value="<%= blogPost.slug %>"
+          />
+          <!-- Replace with the actual blogpost_id -->
+          <input
+            type="hidden"
+            name="commenterName"
+            value="<%= global.user.username %>"
+          />
+          <div class="form-group">
+            <label for="content">Content</label>
+            <textarea
+              required
+              class="form-control"
+              id="content"
+              name="content"
+              placeholder="Enter Coment"
+            >
+            </textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Add Comment</button>
+        </form>
+        <% } %> <% comments.forEach(comment => { %>
+        <div class="card mb-3">
+          <div class="card-header">
+            <p class="font-italic mb-1">Author: <%= comment.commenterName %></p>
+            <p class="card-subtitle text-muted mt-auto font-italic mb-0"></p>
+          </div>
+          <div class="card-body">
+            <p class="card-text"><%= comment.commentText %></p>
+            <% if (global.user && global.user.username ===
+            comment.commenterName) { %>
+            <form
+              action="/comments/<%= comment.id %>?_method=DELETE"
+              method="POST"
+              class="d-inline"
+            >
+              <input
+                type="hidden"
+                name="commenterName"
+                value="<%= global.user.username %>"
+              />
+              <input
+                type="hidden"
+                name="blogPostSlug"
+                value="<%= blogPost.slug %>"
+              />
+              <button type="submit" class="btn btn-outline-danger">
+                Delete
+              </button>
+            </form>
+            <% } %>
+          </div>
+        </div>
+        <% }) %>
+      </div>
+    </div>
+  </body>
+</html>

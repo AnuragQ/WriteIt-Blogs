@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- import bootstrap -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <title>WriteIt Blogs</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="mb-3">WriteIt Blogs</h1>
+      <% if (!global.user) { %>
+      <div class="card-body">
+        <a class="btn btn-primary mb-3" href="/auth/login">Login</a>
+
+        <a class="btn btn-primary mb-3" href="/auth/signup">Signup</a>
+      </div>
+      <% } else { %>
+      <div class="card-body">
+        <!-- <a class="nav-link" href="/blogs/home">My Posts</a> -->
+        <a href="/blogs/create" class="btn btn-primary mb-3">Create Blog</a>
+      </div>
+      <div class="card-body">
+        <a class="btn btn-primary mb-3" href="/user/logout">Logout</a>
+      </div>
+      <% } %> <% blogPosts.forEach(blog => { %>
+      <div class="card mb-3">
+        <div class="card-header">
+          <h5><%= blog.title %></h5>
+          <p class="font-italic mb-1">Author: <%= blog.author %></p>
+          <p class="card-subtitle text-muted mt-auto font-italic mb-0">
+            Written On: <%= blog.createdAt.toLocaleDateString() %>
+          </p>
+        </div>
+        <div class="card-body">
+          <a href="/blogs/<%= blog.slug %>" class="btn btn-primary"
+            >Read More</a
+          >
+          <form
+            action="/blogs/<%= blog.id %>?_method=DELETE"
+            method="POST"
+            class="d-inline"
+          >
+            <% if (global.user && global.user.username === blog.author) { %>
+            <button type="submit" class="btn btn-outline-danger">Delete</button>
+            <% } %>
+          </form>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+  </body>
+</html>

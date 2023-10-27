@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- import bootstrap -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <title>WriteIt Blogs</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="mb-3">Sign Up</h1>
+      <form action="/user/signup" method="POST">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input
+            required
+            type="text"
+            class="form-control"
+            id="username"
+            name="username"
+            placeholder="Enter Username"
+            %
+          />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            required
+            type="text"
+            class="form-control"
+            id="email"
+            name="email"
+            placeholder="Enter Email"
+            %
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            required
+            type="password"
+            class="form-control mb-2"
+            id="password"
+            name="password"
+            placeholder="Enter Password"
+            %
+          />
+          <button type="submit" class="btn btn-primary">SignUp</button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
